@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMovies } from "../services/api";
+import Card from "../components/Card"; // Import the Card component
 
 export default function Movies() {
   const [movies, setMovies] = useState([]);
@@ -20,22 +21,18 @@ export default function Movies() {
   return (
     <div>
       <h2>Filme</h2>
-      <ul>
+      <div className="card-list">
         {movies.map((movie) => (
-          <li key={movie.id}>
-            <Link to={`/movies/${movie.id}`}>
-              {movie.title}
-              {movie.img && (
-                <img
-                  src={movie.img}
-                  alt={movie.title}
-                  style={{ maxWidth: 300 }}
-                />
-              )}
-            </Link>
-          </li>
+          <Card
+            key={movie.id}
+            image={movie.img} // Assuming movie.img contains the image URL
+            title={movie.title}
+            overview={movie.overview}
+            year={movie.year}
+            genres={movie.genres}
+          />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
