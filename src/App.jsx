@@ -1,5 +1,5 @@
 import "./App.css";
-import ObjPage from "./pages/ObjPage";
+import ObjPage from "./pages/main/ObjPage";
 
 function App() {
   return (
