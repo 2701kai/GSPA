@@ -1,23 +1,42 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getMovieById } from "../services/api";
+import {
+  getMovieById,
+  saveMovieById,
+  removeMovieById,
+  getAllMovieIds
+} from "../services/api";
 
 export default function Movie() {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [modalImg, setModalImg] = useState(null);
+  const [isWatched, setIsWatched] = useState(false);
 
   useEffect(() => {
     async function fetchMovie() {
       try {
         const data = await getMovieById(Number(id));
         setMovie(data);
+
+        // watchlist durumu kontrol
+        const watchedIds = getAllMovieIds();
+        setIsWatched(watchedIds.includes(Number(id)));
       } catch (error) {
         setMovie(null);
       }
     }
     fetchMovie();
   }, [id]);
+
+  const toggleWatch = () => {
+    if (isWatched) {
+      removeMovieById(Number(id));
+    } else {
+      saveMovieById(Number(id));
+    }
+    setIsWatched(!isWatched);
+  };
 
   if (!movie) return <div className="text-center mt-10">Film nicht gefunden...</div>;
 
@@ -39,7 +58,8 @@ export default function Movie() {
           </h2>
           <p className="text-gray-500 text-sm">{movie.genres?.join(", ")}</p>
           <p>{movie.overview}</p>
-          <div className="card-actions justify-start">
+
+          <div className="card-actions justify-start items-center gap-4">
             {movie.img && (
               <img
                 src={movie.img}
@@ -48,6 +68,9 @@ export default function Movie() {
                 onClick={() => setModalImg(movie.img)}
               />
             )}
+            <button className="btn btn-primary" onClick={toggleWatch}>
+              {isWatched ? "Unwatch" : "Watch"}
+            </button>
           </div>
         </div>
       </div>
