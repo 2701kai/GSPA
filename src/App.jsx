@@ -12,14 +12,16 @@ function App() {
     <Router>
       <Navbar />
       <div className="app-container">
-        <Routes>
-          <Route path="/" element={<Movies />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/movies/:id" element={<Movie />} />
-          <Route path="/series/:id" element={<Serie />} />
-          <Route path="/series" element={<Series />} />
-          <Route path="/watchlist" element={<Watchlist />} />
-        </Routes>
+      <Routes>
+  <Route path="/" element={<Movies />} />
+  <Route path="/movies" element={<Movies />} />
+  <Route path="/movies/:id" element={<Movie />} />
+  <Route path="/series/:id" element={<Serie />} />
+  <Route path="/series" element={<Series />} />
+  <Route path="/watchlist" element={<Watchlist />} />
+  <Route path="/testobj" element={<ObjPage />} /> {/* Ekledik */}
+</Routes>
+
       </div>
     </Router>
   );
