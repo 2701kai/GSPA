@@ -1,7 +1,7 @@
 import { getMovie, saveMovie, getSeries, saveSeries } from "./localstorage";
 
-MOVIE = "movie";
-SERIE = "serie";
+const MOVIE = "movie";
+const SERIE = "serie";
 
 function setStar(type, id, rating) {
   const stars = JSON.parse(localStorage.getItem(`${type}-stars`)) || {};
