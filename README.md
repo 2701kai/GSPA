@@ -75,12 +75,33 @@
 
 ## 📦 Localstorage Service Dokumentation `src/services/localstorage.js`
 
-- **getAllMovieIds()**  
-  Gibt ein Array von IDs aller Filme aus localStorage zurück, um zu prüfen, ob der Film in der Watchlist ist.
+- **getAllMovieIds()**
 
-- **getAllSeriesIds()**  
-  Gibt ein Array von IDs aller Serien aus localStorage zurück, um zu prüfen, ob die Serie in der Watchlist steht.
+  > Gibt ein Array von IDs aller Filme aus localStorage zurück, um zu prüfen, ob der Film in der Watchlist ist.
+
+- **getAllSeriesIds()**
+  > Gibt ein Array von IDs aller Serien aus localStorage zurück, um zu prüfen, ob die Serie in der Watchlist steht.
 
 ---
+
+## Bewertung (Rating) Service Dokumentation (`src/services/rating.js`)
+
+- **setMovieStar(id, rating)**
+
+  > Setzt die Bewertung (Sterne) für einen Film mit der angegebenen ID.  
+  > Aktualisiert auch das gespeicherte Filmobjekt im localStorage, falls vorhanden.  
+  > **Parameter:**
+  >
+  > - `id`: Die Film-ID
+  > - `rating`: Die Anzahl der Sterne (z.B. 1–5)
+
+- **setSerieStar(id, rating)**
+
+  > Setzt die Bewertung (Sterne) für eine Serie mit der angegebenen ID.  
+  > Aktualisiert auch das gespeicherte Serienobjekt im localStorage, falls vorhanden.  
+  > **Parameter:**
+  >
+  > - `id`: Die Serien-ID
+  > - `rating`: Die Anzahl der Sterne (z.B. 1–5)
 
 [Nach oben](#top)
