@@ -6,7 +6,8 @@ import Watchlist from "./pages/watchlist";
 import Movie from "./pages/movie";
 import Serie from "./pages/serie";
 import ObjPage from "./pages/ObjPage";
-import "./App.css";
+// import "./App.css";
+// not necessary to import empty CSS file here - index.css is the real style entry point + already imported in main.jsx
 
 function App() {
   return (
