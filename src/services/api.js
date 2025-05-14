@@ -12,6 +12,7 @@ import {
   saveSeriesGenres,
   getSeriesGenres,
 } from "./localstorage";
+import { getMovieStars, getSerieStars } from "./rating";
 
 const API_KEY =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMGEwZWViNWE4MTZiMGRkNDhkZWE5NjBjMWY2Y2M1MyIsIm5iZiI6MTc0NzA2MTQ1MC43MjIsInN1YiI6IjY4MjIwYWNhNjVkMGM4ZjNiZTJkMWMzMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.yzk7LqG-1fF8ZnYZ0OTaECGo7QDbgiQJ_j-XkFPpJQw";
@@ -84,6 +85,14 @@ async function getPopularMovies(page = 1) {
       year: movie.release_date.split("-")[0],
       img: `${IMAGE_URL}${movie.poster_path}`,
     }));
+    const stars = getMovieStars();
+    if (stars) {
+      results.forEach((movies) => {
+        if (stars[movies.id]) {
+          movies.stars = stars[movies.id];
+        }
+      });
+    }
     return results;
   } catch (error) {
     console.error("Failed to fetch popular movies:", error);
@@ -112,6 +121,14 @@ async function getPopularSeries(page = 1) {
       year: series.first_air_date ? series.first_air_date.split("-")[0] : "",
       img: `${IMAGE_URL}${series.poster_path}`,
     }));
+    const stars = getSerieStars();
+    if (stars) {
+      results.forEach((series) => {
+        if (stars[series.id]) {
+          series.stars = stars[series.id];
+        }
+      });
+    }
     return results;
   } catch (error) {
     console.error("Failed to fetch popular series:", error);
@@ -138,6 +155,10 @@ async function getMovieDetails(movieId) {
       img: `${IMAGE_URL}${data.poster_path}`,
       img_backdrop: `${IMAGE_URL}${data.backdrop_path}`,
     };
+    const stars = getMovieStars();
+    if (stars) {
+      result.stars = stars[data.id];
+    }
     return result;
   } catch (error) {
     console.error(`Failed to fetch details for movie ID ${movieId}:`, error);
@@ -164,6 +185,10 @@ async function getSeriesDetails(seriesId) {
       img: `${IMAGE_URL}${data.poster_path}`,
       img_backdrop: `${IMAGE_URL}${data.backdrop_path}`,
     };
+    const stars = getSerieStars();
+    if (stars) {
+      result.stars = stars[data.id];
+    }
     return result;
   } catch (error) {
     console.error(`Failed to fetch details for series ID ${seriesId}:`, error);
