@@ -6,6 +6,7 @@ import {
   removeSeriesById,
 } from "../services/api";
 import { getAllSeriesIds } from "../services/localstorage";
+import { WatchButton } from "../components/watch.comp";
 
 export default function Serie() {
   const { id } = useParams();
@@ -68,9 +69,7 @@ export default function Serie() {
                 onClick={() => setModalImg(serie.img)}
               />
             )}
-            <button className="btn btn-primary" onClick={toggleWatch}>
-              {isWatched ? "Unwatch" : "Watch"}
-            </button>
+            <WatchButton isWatched={isWatched} onToggle={toggleWatch} />
           </div>
         </div>
       </div>

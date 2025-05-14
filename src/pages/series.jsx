@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPopSeries } from "../services/api";
-import Card from "../components/Card";
-import { Link } from "react-router-dom";
+import CardList from "../components/CardList";
 
 export default function Series() {
   const [series, setSeries] = useState([]);
@@ -21,23 +20,7 @@ export default function Series() {
   return (
     <div>
       <h2>Serien</h2>
-      <div className="card-list">
-        {series.map((serie) => (
-          <div key={serie.id}>
-            <Card
-              image={serie.img}
-              title={serie.title}
-              overview={serie.overview}
-              year={serie.year}
-              genres={serie.genres}
-            />
-            <Link to={`/series/${serie.id}`}>
-              {" "}
-              Zur Seite gehen {serie.title}
-            </Link>
-          </div>
-        ))}
-      </div>
+      <CardList cards={series} type="series" />
     </div>
   );
 }

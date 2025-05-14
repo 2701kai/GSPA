@@ -1,38 +1,62 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import Card from "./Card";
+import { WatchButton } from "./watch.comp";
+import {
+  getAllMovieIds,
+  saveMovie,
+  removeMovie,
+  getAllSeriesIds,
+  saveSeries,
+  removeSeries,
+} from "../services/localstorage";
 
-const CardList = ({ cards }) => {
-  const handleWatch = (movie, listType) => {
-    const watchlist = JSON.parse(localStorage.getItem(listType)) || [];
-    const movieData = {
-      id: movie.id, //Verwendung der echten ID
-      title: movie.title,
-      image: movie.img,
-      overview: movie.overview,
-      year: movie.year,
-      genres: movie.genres,
-    };
+const CardList = ({ cards, type }) => {
+  const [watchedIds, setWatchedIds] = useState([]);
 
-    const alreadyExists = watchlist.find((m) => m.id === movieData.id);
-    if (!alreadyExists) {
-      watchlist.push(movieData);
-      localStorage.setItem("watchlist", JSON.stringify(watchlist));
-      alert(
-        `${movie.title} wurde der ${
-          listType === "watchlist" ? "Watchlist" : "OnWatchlist"
-        } hinzugefügt!`
-      );
+  useEffect(() => {
+    if (type === "series") {
+      setWatchedIds(getAllSeriesIds());
     } else {
-      alert(
-        `${movie.title} war bereits in der ${
-          listType === "watchlist" ? "Watchlist" : "OnWatchlist"
-        }.`
-      );
+      setWatchedIds(getAllMovieIds());
+    }
+  }, [cards, type]);
+
+  const toggleWatch = (card) => {
+    if (watchedIds.includes(card.id)) {
+      if (type === "series") {
+        removeSeries(card.id);
+        setWatchedIds((ids) => ids.filter((id) => id !== card.id));
+      } else {
+        removeMovie(card.id);
+        setWatchedIds((ids) => ids.filter((id) => id !== card.id));
+      }
+    } else {
+      if (type === "series") {
+        saveSeries({
+          id: card.id,
+          title: card.title,
+          img: card.img,
+          overview: card.overview,
+          year: card.year,
+          genres: card.genres,
+        });
+        setWatchedIds((ids) => [...ids, card.id]);
+      } else {
+        saveMovie({
+          id: card.id,
+          title: card.title,
+          img: card.img,
+          overview: card.overview,
+          year: card.year,
+          genres: card.genres,
+        });
+        setWatchedIds((ids) => [...ids, card.id]);
+      }
     }
   };
 
   if (!cards || cards.length === 0) {
-    return <p>"Es gibt keine Elemente zum Anzeigen."</p>;
+    return <p>Es gibt keine Elemente zum Anzeigen.</p>;
   }
 
   return (
@@ -40,13 +64,18 @@ const CardList = ({ cards }) => {
       {cards.map((card) => (
         <Card
           key={card.id}
+          id={card.id}
           image={card.img}
           title={card.title}
           overview={card.overview}
           year={card.year}
           genres={card.genres}
-          onWatch={() => handleWatch(card, "onWatchlist")} // Senden der Funktion handleOnWatch an Card Card
-          handleWatch={() => handleWatch(card, "watchlist")} // Senden der Funktion handleOnWatch an Card
+          watchButton={
+            <WatchButton
+              isWatched={watchedIds.includes(card.id)}
+              onToggle={() => toggleWatch(card)}
+            />
+          }
         />
       ))}
     </div>
