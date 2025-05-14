@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPopSeries } from "../services/api";
-import Card from "../components/Card"; // Import the Card component
+import Card from "../components/Card";
 import { Link } from "react-router-dom";
 
 export default function Series() {
@@ -12,7 +12,7 @@ export default function Series() {
         const data = await getPopSeries(1);
         setSeries(data);
       } catch (error) {
-        console.error("Fehler beim Laden der Serien:", error);
+        console.error("Fehler beim Laden der Serien", error);
       }
     }
     fetchSeries();
@@ -23,17 +23,19 @@ export default function Series() {
       <h2>Serien</h2>
       <div className="card-list">
         {series.map((serie) => (
-          <>
+          <div key={serie.id}>
             <Card
-              key={serie.id}
-              image={serie.img} // Assuming serie.img contains the image URL
+              image={serie.img}
               title={serie.title}
               overview={serie.overview}
               year={serie.year}
               genres={serie.genres}
             />
-            <Link to={`/series/${serie.id}`}>Page to {serie.title}</Link>
-          </>
+            <Link to={`/series/${serie.id}`}>
+              {" "}
+              Zur Seite gehen {serie.title}
+            </Link>
+          </div>
         ))}
       </div>
     </div>

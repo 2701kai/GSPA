@@ -2,6 +2,33 @@ import React, { useState } from "react";
 
 const Card = ({ image, title, overview, year, genres, onWatch }) => {
   const [rating, setRating] = useState(0);
+  const [isOnWatch, setIsOnWatch] = useState(false);
+
+  const handleOnWatch = () => {
+    const onWatchlist = JSON.parse(localStorage.getItem("onWatchlist")) || [];
+
+    const movieData = {
+      title,
+      image,
+      overview,
+      year,
+      genres,
+    };
+
+    const exists = onWatchlist.find((m) => m.title === title);
+
+    if (exists) {
+      const updatedList = onWatchlist.filter((m) => m.title !== title);
+      localStorage.setItem("onWatchlist", JSON.stringify(updatedList));
+      setIsOnWatch(false);
+      alert(`${title} Der Zuschauermodus wurde beendet.`);
+    } else {
+      onWatchlist.push(movieData);
+      localStorage.setItem("onWatchlist", JSON.stringify(onWatchlist));
+      setIsOnWatch(true);
+      alert(`${title} Zur Zuschauermodus hinzugefügt.`);
+    }
+  };
 
   return (
     <div className="card bg-neutral text-neutral-content p-4 rounded-lg shadow-md">
@@ -19,6 +46,14 @@ const Card = ({ image, title, overview, year, genres, onWatch }) => {
           className="watch-button bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md"
         >
           Watch
+        </button>
+        <button
+          onClick={handleOnWatch}
+          className={`onwatch-button ${
+            isOnWatch ? "bg-green-600" : "bg-gray-500"
+          } hover:bg-green-700 text-white px-3 py-1 rounded-md`}
+        >
+          {isOnWatch ? "On Watching" : "Mark as Watching"}
         </button>
 
         <div className="rating flex gap-1">
