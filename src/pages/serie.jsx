@@ -4,8 +4,8 @@ import {
   getSeriesById,
   saveSeriesById,
   removeSeriesById,
-  getAllSeriesIds
 } from "../services/api";
+import { getAllSeriesIds } from "../services/localstorage";
 
 export default function Serie() {
   const { id } = useParams();
@@ -37,7 +37,8 @@ export default function Serie() {
     setIsWatched(!isWatched);
   };
 
-  if (!serie) return <div className="text-center mt-10">Serie nicht gefunden...</div>;
+  if (!serie)
+    return <div className="text-center mt-10">Serie nicht gefunden...</div>;
 
   return (
     <div className="p-6">
@@ -84,10 +85,7 @@ export default function Serie() {
           <div className="modal-box w-11/12 max-w-5xl">
             <img src={modalImg} alt="Großansicht" className="w-full rounded" />
             <div className="modal-action">
-              <button
-                className="btn"
-                onClick={() => setModalImg(null)}
-              >
+              <button className="btn" onClick={() => setModalImg(null)}>
                 Schließen
               </button>
             </div>

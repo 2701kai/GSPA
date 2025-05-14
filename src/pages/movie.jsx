@@ -1,11 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {
-  getMovieById,
-  saveMovieById,
-  removeMovieById,
-  getAllMovieIds
-} from "../services/api";
+import { getMovieById, saveMovieById, removeMovieById } from "../services/api";
+import { getAllMovieIds } from "../services/localstorage";
 
 export default function Movie() {
   const { id } = useParams();
@@ -38,7 +34,8 @@ export default function Movie() {
     setIsWatched(!isWatched);
   };
 
-  if (!movie) return <div className="text-center mt-10">Film nicht gefunden...</div>;
+  if (!movie)
+    return <div className="text-center mt-10">Film nicht gefunden...</div>;
 
   return (
     <div className="p-6">
@@ -85,10 +82,7 @@ export default function Movie() {
           <div className="modal-box w-11/12 max-w-5xl">
             <img src={modalImg} alt="Großansicht" className="w-full rounded" />
             <div className="modal-action">
-              <button
-                className="btn"
-                onClick={() => setModalImg(null)}
-              >
+              <button className="btn" onClick={() => setModalImg(null)}>
                 Schließen
               </button>
             </div>
