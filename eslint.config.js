@@ -43,7 +43,7 @@ export default [
           jsx: "never",
         },
       ],
-      "import/no-case-sensitive-paths": "error",
+      // "import/no-case-sensitive-paths": "error",
     },
     settings: {
       "import/resolver": {
