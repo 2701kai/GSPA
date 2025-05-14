@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMovieById, saveMovieById, removeMovieById } from "../services/api";
 import { getAllMovieIds } from "../services/localstorage";
+import { WatchButton } from "../components/watch.comp"; // Import the watch button component
 
 export default function Movie() {
   const { id } = useParams();
@@ -65,9 +66,7 @@ export default function Movie() {
                 onClick={() => setModalImg(movie.img)}
               />
             )}
-            <button className="btn btn-primary" onClick={toggleWatch}>
-              {isWatched ? "Unwatch" : "Watch"}
-            </button>
+            <WatchButton isWatched={isWatched} onToggle={toggleWatch} />
           </div>
         </div>
       </div>
