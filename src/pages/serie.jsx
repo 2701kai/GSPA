@@ -86,7 +86,7 @@ export default function Serie() {
             <img src={modalImg} alt="Großansicht" className="w-full rounded" />
             <div className="modal-action">
               <button className="btn" onClick={() => setModalImg(null)}>
-                Schließen
+                Schließen!
               </button>
             </div>
           </div>
