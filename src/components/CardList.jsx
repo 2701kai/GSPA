@@ -45,7 +45,7 @@ const CardList = ({ cards }) => {
           overview={card.overview}
           year={card.year}
           genres={card.genres}
-          onWatch={() => handleOnWatch(card, "onWatchlist")} // Senden der Funktion handleOnWatch an Card Card
+          onWatch={() => handleWatch(card, "onWatchlist")} // Senden der Funktion handleOnWatch an Card Card
           handleWatch={() => handleWatch(card, "watchlist")} // Senden der Funktion handleOnWatch an Card
         />
       ))}
