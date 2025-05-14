@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import Card from "./Card";
 import { WatchButton } from "./watch.comp";
+import { getAllMovieIds, getAllSeriesIds } from "../services/localstorage";
 import {
-  getAllMovieIds,
-  saveMovie,
-  removeMovie,
-  getAllSeriesIds,
-  saveSeries,
-  removeSeries,
-} from "../services/localstorage";
+  saveMovieById,
+  removeMovieById,
+  saveSeriesById,
+  removeSeriesById,
+} from "../services/api";
 
 const CardList = ({ cards, type }) => {
   const [watchedIds, setWatchedIds] = useState([]);
@@ -21,35 +20,21 @@ const CardList = ({ cards, type }) => {
     }
   }, [cards, type]);
 
-  const toggleWatch = (card) => {
+  const toggleWatch = async (card) => {
     if (watchedIds.includes(card.id)) {
       if (type === "series") {
-        removeSeries(card.id);
+        await removeSeriesById(card.id);
         setWatchedIds((ids) => ids.filter((id) => id !== card.id));
       } else {
-        removeMovie(card.id);
+        await removeMovieById(card.id);
         setWatchedIds((ids) => ids.filter((id) => id !== card.id));
       }
     } else {
       if (type === "series") {
-        saveSeries({
-          id: card.id,
-          title: card.title,
-          img: card.img,
-          overview: card.overview,
-          year: card.year,
-          genres: card.genres,
-        });
+        await saveSeriesById(card.id);
         setWatchedIds((ids) => [...ids, card.id]);
       } else {
-        saveMovie({
-          id: card.id,
-          title: card.title,
-          img: card.img,
-          overview: card.overview,
-          year: card.year,
-          genres: card.genres,
-        });
+        await saveMovieById(card.id);
         setWatchedIds((ids) => [...ids, card.id]);
       }
     }
@@ -63,6 +48,7 @@ const CardList = ({ cards, type }) => {
     <div className="card-list">
       {cards.map((card) => (
         <Card
+          type={type}
           key={card.id}
           id={card.id}
           image={card.img}
