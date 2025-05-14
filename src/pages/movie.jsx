@@ -5,6 +5,7 @@ import { getMovieById } from "../services/api";
 export default function Movie() {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+  const [modalImg, setModalImg] = useState(null);
 
   useEffect(() => {
     async function fetchMovie() {
@@ -18,23 +19,58 @@ export default function Movie() {
     fetchMovie();
   }, [id]);
 
-  if (!movie) return <div>Film nicht gefunden...</div>;
+  if (!movie) return <div className="text-center mt-10">Film nicht gefunden...</div>;
 
   return (
-    <div>
-      <h2>{movie.title}</h2>
-      <p>{movie.overview}</p>
-      <p>Jahr: {movie.year}</p>
-      <p>Genres: {movie.genres && movie.genres.join(", ")}</p>
-      {movie.img && (
-        <img src={movie.img} alt={movie.title} style={{ maxWidth: 300 }} />
-      )}
-      {movie.img_backdrop && (
-        <img
-          src={movie.img_backdrop}
-          alt={movie.title + " backdrop"}
-          style={{ maxWidth: 300 }}
-        />
+    <div className="p-6">
+      <div className="card bg-base-100 shadow-xl">
+        <figure>
+          <img
+            src={movie.img_backdrop}
+            alt="Backdrop"
+            className="cursor-pointer"
+            onClick={() => setModalImg(movie.img_backdrop)}
+          />
+        </figure>
+        <div className="card-body">
+          <h2 className="card-title">
+            {movie.title}
+            <div className="badge badge-secondary">{movie.year}</div>
+          </h2>
+          <p className="text-gray-500 text-sm">{movie.genres?.join(", ")}</p>
+          <p>{movie.overview}</p>
+          <div className="card-actions justify-start">
+            {movie.img && (
+              <img
+                src={movie.img}
+                alt="Poster"
+                className="w-24 rounded cursor-pointer"
+                onClick={() => setModalImg(movie.img)}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Modal */}
+      {modalImg && (
+        <dialog
+          open
+          className="modal modal-open"
+          onClick={() => setModalImg(null)}
+        >
+          <div className="modal-box w-11/12 max-w-5xl">
+            <img src={modalImg} alt="Großansicht" className="w-full rounded" />
+            <div className="modal-action">
+              <button
+                className="btn"
+                onClick={() => setModalImg(null)}
+              >
+                Schließen
+              </button>
+            </div>
+          </div>
+        </dialog>
       )}
     </div>
   );
