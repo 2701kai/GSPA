@@ -1,23 +1,41 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getSeriesById } from "../services/api";
+import {
+  getSeriesById,
+  saveSeriesById,
+  removeSeriesById,
+  getAllSeriesIds
+} from "../services/api";
 
 export default function Serie() {
   const { id } = useParams();
   const [serie, setSerie] = useState(null);
-  const [modalImg, setModalImg] = useState(null); // hangi görsel açıldıysa
+  const [modalImg, setModalImg] = useState(null);
+  const [isWatched, setIsWatched] = useState(false);
 
   useEffect(() => {
     async function fetchSerie() {
       try {
         const data = await getSeriesById(Number(id));
         setSerie(data);
+
+        const watchedIds = getAllSeriesIds();
+        setIsWatched(watchedIds.includes(Number(id)));
       } catch (error) {
         setSerie(null);
       }
     }
     fetchSerie();
   }, [id]);
+
+  const toggleWatch = () => {
+    if (isWatched) {
+      removeSeriesById(Number(id));
+    } else {
+      saveSeriesById(Number(id));
+    }
+    setIsWatched(!isWatched);
+  };
 
   if (!serie) return <div className="text-center mt-10">Serie nicht gefunden...</div>;
 
@@ -39,7 +57,8 @@ export default function Serie() {
           </h2>
           <p className="text-gray-500 text-sm">{serie.genres?.join(", ")}</p>
           <p>{serie.overview}</p>
-          <div className="card-actions justify-start">
+
+          <div className="card-actions justify-start items-center gap-4">
             {serie.img && (
               <img
                 src={serie.img}
@@ -48,6 +67,9 @@ export default function Serie() {
                 onClick={() => setModalImg(serie.img)}
               />
             )}
+            <button className="btn btn-primary" onClick={toggleWatch}>
+              {isWatched ? "Unwatch" : "Watch"}
+            </button>
           </div>
         </div>
       </div>
