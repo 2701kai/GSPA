@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -7,10 +8,13 @@ import Watchlist from "./pages/watchlist";
 import Movie from "./pages/movie";
 import Serie from "./pages/serie";
 import ObjPage from "./pages/ObjPage";
-// import "./App.css";
-// not necessary to import empty CSS file here - index.css is the real style entry point + already imported in main.jsx
+import "./index.css"; // ensure tailwind is applied globally
 
 function App() {
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", "dark");
+  }, []);
+
   return (
     <Router>
       <Navbar />
@@ -23,7 +27,7 @@ function App() {
           <Route path="/series/:id" element={<Serie />} />
           <Route path="/series" element={<Series />} />
           <Route path="/watchlist" element={<Watchlist />} />
-          <Route path="/testobj" element={<ObjPage />} /> {/* Ekledik */}
+          <Route path="/testobj" element={<ObjPage />} />
         </Routes>
       </div>
     </Router>
