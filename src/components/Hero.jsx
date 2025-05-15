@@ -1,5 +1,5 @@
 import React from "react";
-import penguinImage from "/home/pazzo/Desktop/2025/Gruppenprojekt-SPA/src/assets/penguin.webp"; // Adjust the path as necessary
+import penguinImage from "../assets/penguin.webp"; // Adjust the path as necessary
 
 export default function Hero() {
   return (
