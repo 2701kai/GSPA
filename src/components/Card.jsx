@@ -15,21 +15,24 @@ const Card = ({
   const [rating, setRating] = useState(0);
 
   return (
-    <div className="card bg-neutral text-neutral-content p-4 rounded-lg shadow-md">
-      <img src={image} alt={title} className="card-image rounded-md mb-2" />
-      <h2 className="card-title text-xl font-bold">{title}</h2>
+    <div className="bg-white text-gray-800 rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-105 duration-200">
+      <img src={image} alt={title} className="w-full h-56 object-cover" />
+      <div className="p-4 space-y-2">
+        <h2 className="text-lg font-bold">{title}</h2>
+        <p className="text-sm text-gray-600 line-clamp-3">{overview}</p>
+        <p className="text-xs text-gray-500">Jahr: {year}</p>
+        <p className="text-xs text-gray-500">Genres: {genres.join(", ")}</p>
 
-      <p className="card-overview text-sm mt-1">{overview}</p>
-      <p className="card-year text-xs mt-1">Year: {year}</p>
-      <p className="card-genres text-xs text-gray-400 mb-2">
-        Genres: {genres.join(", ")}
-      </p>
-      <div className="flex items-center justify-between mt-2">
-        {watchButton}
-        <Link className="btn" to={`/${type}/${id}`}>
-          Page to {title}
-        </Link>
-        <Rating id={id} type={type} />
+        <div className="flex justify-between items-center pt-2 gap-2">
+          {watchButton}
+          <Link
+            className="bg-blue-600 text-white text-xs px-3 py-1 rounded hover:bg-blue-700"
+            to={`/${type}/${id}`}
+          >
+            Details
+          </Link>
+          <Rating id={id} type={type} />
+        </div>
       </div>
     </div>
   );

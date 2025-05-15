@@ -19,7 +19,10 @@ export default function Series() {
 
   return (
     <div>
-      <h2>Serien</h2>
+      <h2 className="text-2xl font-bold my-4 text-center text-purple-800">
+        📺 Serien
+      </h2>
+
       <CardList cards={series} type="series" />
     </div>
   );

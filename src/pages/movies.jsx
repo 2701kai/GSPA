@@ -19,7 +19,10 @@ export default function Movies() {
 
   return (
     <div>
-      <h2>Filme</h2>
+      <h2 className="text-2xl font-bold my-4 text-center text-blue-800">
+        🎬 Filme
+      </h2>
+
       <CardList cards={movies} />
     </div>
   );
