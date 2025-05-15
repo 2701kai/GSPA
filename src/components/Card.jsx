@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Rating } from "./rating.comp";
 
 const Card = ({
   id,
@@ -28,19 +29,7 @@ const Card = ({
         <Link className="btn" to={`/${type}/${id}`}>
           Page to {title}
         </Link>
-        <div className="rating flex gap-1">
-          {[...Array(5)].map((_, index) => (
-            <span
-              key={index}
-              className={`cursor-pointer text-lg ${
-                rating > index ? "text-yellow-400" : "text-gray-500"
-              }`}
-              onClick={() => setRating(index + 1)}
-            >
-              ★
-            </span>
-          ))}
-        </div>
+        <Rating id={id} type={type} />
       </div>
     </div>
   );

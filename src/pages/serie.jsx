@@ -7,6 +7,7 @@ import {
 } from "../services/api";
 import { getAllSeriesIds } from "../services/localstorage";
 import { WatchButton } from "../components/watch.comp";
+import { Rating } from "../components/rating.comp";
 
 export default function Serie() {
   const { id } = useParams();
@@ -57,6 +58,7 @@ export default function Serie() {
             {serie.title}
             <div className="badge badge-secondary">{serie.year}</div>
           </h2>
+          <Rating id={serie.id} type="series" />
           <p className="text-gray-500 text-sm">{serie.genres?.join(", ")}</p>
           <p>{serie.overview}</p>
 
