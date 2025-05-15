@@ -4,6 +4,7 @@ import CardList from "../components/CardList";
 
 export default function Movies() {
   const [movies, setMovies] = useState([]);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     async function fetchMovies() {
@@ -17,13 +18,23 @@ export default function Movies() {
     fetchMovies();
   }, []);
 
-  return (
-    <div>
-      <h2 className="text-2xl font-bold my-4 text-center text-blue-800">
-        🎬 Filme
-      </h2>
+  const filteredMovies = movies.filter((movie) =>
+    movie.title.toLowerCase().includes(query.toLowerCase())
+  );
 
-      <CardList cards={movies} />
+  return (
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">🎬 Filme</h2>
+
+      <input
+        type="text"
+        placeholder="Nach Film suchen..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="w-full md:w-1/3 px-4 py-2 mb-6 border rounded-md shadow-sm"
+      />
+
+      <CardList cards={filteredMovies} />
     </div>
   );
 }

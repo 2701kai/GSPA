@@ -4,6 +4,7 @@ import CardList from "../components/CardList";
 
 export default function Series() {
   const [series, setSeries] = useState([]);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     async function fetchSeries() {
@@ -17,13 +18,23 @@ export default function Series() {
     fetchSeries();
   }, []);
 
-  return (
-    <div>
-      <h2 className="text-2xl font-bold my-4 text-center text-purple-800">
-        📺 Serien
-      </h2>
+  const filteredSeries = series.filter((serie) =>
+    serie.title.toLowerCase().includes(query.toLowerCase())
+  );
 
-      <CardList cards={series} type="series" />
+  return (
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">📺 Serien</h2>
+
+      <input
+        type="text"
+        placeholder="Nach Serie suchen..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="w-full md:w-1/3 px-4 py-2 mb-6 border rounded-md shadow-sm"
+      />
+
+      <CardList cards={filteredSeries} type="series" />
     </div>
   );
 }
