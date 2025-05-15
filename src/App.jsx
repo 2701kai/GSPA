@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
 import Movies from "./pages/movies";
 import Series from "./pages/series";
 import Watchlist from "./pages/watchlist";
@@ -13,6 +14,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+      <Hero />
       <div className="app-container">
         <Routes>
           <Route path="/" element={<Movies />} />
