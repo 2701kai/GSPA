@@ -5,6 +5,7 @@ import { getAllSeriesIds } from "../services/localstorage";
 
 export default function Series() {
   const [series, setSeries] = useState([]);
+  const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const [sortKey, setSortKey] = useState("title");
   const [sortOrder, setSortOrder] = useState("asc");
@@ -14,7 +15,7 @@ export default function Series() {
   useEffect(() => {
     async function fetchSeries() {
       try {
-        const data = await getPopSeries(1);
+        const data = await getPopSeries(page);
         setSeries(data);
         setWatchedIds(getAllSeriesIds());
       } catch (error) {
@@ -22,7 +23,7 @@ export default function Series() {
       }
     }
     fetchSeries();
-  }, []);
+  }, [page]);
 
   const filteredSeries = series
     .filter((s) => s.title.toLowerCase().includes(query.toLowerCase()))
@@ -34,45 +35,20 @@ export default function Series() {
     .sort((a, b) => {
       const aVal = a[sortKey];
       const bVal = b[sortKey];
-
-      if (sortOrder === "asc") {
-        return aVal > bVal ? 1 : -1;
-      } else {
-        return aVal < bVal ? 1 : -1;
-      }
+      return sortOrder === "asc"
+        ? aVal > bVal
+          ? 1
+          : -1
+        : aVal < bVal
+        ? 1
+        : -1;
     });
 
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">📺 Serien</h2>
 
-      <div className="flex gap-4 mb-6">
-        <button
-          className={`px-4 py-2 rounded-md ${
-            tab === "all" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setTab("all")}
-        >
-          Alle
-        </button>
-        <button
-          className={`px-4 py-2 rounded-md ${
-            tab === "watched" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setTab("watched")}
-        >
-          Gesehen
-        </button>
-        <button
-          className={`px-4 py-2 rounded-md ${
-            tab === "unwatched" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setTab("unwatched")}
-        >
-          Ungesehen
-        </button>
-      </div>
-
+      {/* Search & Sort */}
       <div className="flex flex-col md:flex-row md:items-center md:gap-4 mb-6">
         <input
           type="text"
@@ -101,7 +77,54 @@ export default function Series() {
         </select>
       </div>
 
+      {/* Tabs */}
+      <div className="flex gap-4 mb-6">
+        <button
+          className={`px-4 py-2 rounded-md ${
+            tab === "all" ? "bg-blue-600 text-white" : "bg-gray-200"
+          }`}
+          onClick={() => setTab("all")}
+        >
+          Alle
+        </button>
+        <button
+          className={`px-4 py-2 rounded-md ${
+            tab === "watched" ? "bg-blue-600 text-white" : "bg-gray-200"
+          }`}
+          onClick={() => setTab("watched")}
+        >
+          Gesehen
+        </button>
+        <button
+          className={`px-4 py-2 rounded-md ${
+            tab === "unwatched" ? "bg-blue-600 text-white" : "bg-gray-200"
+          }`}
+          onClick={() => setTab("unwatched")}
+        >
+          Ungesehen
+        </button>
+      </div>
+
+      {/* List */}
       <CardList cards={filteredSeries} type="series" />
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-8 gap-4">
+        <button
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1}
+          className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 disabled:opacity-50"
+        >
+          ◀️ Zurück
+        </button>
+        <span className="px-4 py-2 font-medium">Seite {page}</span>
+        <button
+          onClick={() => setPage((prev) => prev + 1)}
+          className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+        >
+          Weiter ▶️
+        </button>
+      </div>
     </div>
   );
 }
