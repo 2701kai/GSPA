@@ -2,7 +2,8 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMovieById, saveMovieById, removeMovieById } from "../services/api";
 import { getAllMovieIds } from "../services/localstorage";
-import { WatchButton } from "../components/watch.comp"; // Import the watch button component
+import { WatchButton } from "../components/watch.comp";
+import { Rating } from "../components/rating.comp";
 
 export default function Movie() {
   const { id } = useParams();
@@ -54,6 +55,7 @@ export default function Movie() {
             {movie.title}
             <div className="badge badge-secondary">{movie.year}</div>
           </h2>
+          <Rating id={movie.id} type="movies" />
           <p className="text-gray-500 text-sm">{movie.genres?.join(", ")}</p>
           <p>{movie.overview}</p>
 
