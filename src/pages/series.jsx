@@ -54,7 +54,7 @@ export default function Series() {
         />
       </div>
 
-      <CardList cards={filteredSeries} type="series" />
+      <CardList cards={filteredSeries.map((s) => ({ ...s, type: "series" }))} />
 
       <div className="flex justify-center mt-8 gap-4">
         <button
