@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo-cinesphere.png";
+// import logo from "../assets/logo-cinesphere.png";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -9,7 +9,11 @@ export default function Navbar() {
     <header className="bg-base-200 shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="CineSphere logo" className="h-8 w-8" />
+          <img
+            src="/assets/logo-cinesphere.png"
+            alt="CineSphere logo"
+            className="h-8 w-8"
+          />
           <span
             className="hidden sm:inline text-xl font-bold text-primary hover:tooltip hover:tooltip-bottom"
             data-tip="CineSphere"
