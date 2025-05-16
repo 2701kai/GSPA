@@ -1,12 +1,14 @@
 import React from "react";
-const penguinImage = "/assets/penguin.webp";
 
 export default function Hero() {
+  const backgroundImage = "/assets/astro.jpg";
+  const foregroundImage = "/assets/earth.png";
+
   return (
     <section className="bg-base-100 text-base-content py-12 md:py-20 min-h-screen flex items-center relative overflow-hidden">
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-10 scale-110 blur-sm"
-        style={{ backgroundImage: `url(${penguinImage})` }}
+        className="absolute inset-0 bg-cover bg-center opacity-15 scale-110 blur-sm"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
       ></div>
 
       <div className="relative z-10 w-full px-6 sm:px-8 max-w-screen-lg mx-auto flex flex-col md:flex-row items-center gap-10 animate-fade-in">
@@ -26,8 +28,8 @@ export default function Hero() {
         </div>
         <div className="w-full md:w-1/2 flex justify-center">
           <img
-            src={penguinImage}
-            alt="The Penguin - Batman"
+            src={foregroundImage}
+            alt="Earth"
             className="rounded-2xl shadow-xl w-full max-w-xs sm:max-w-sm md:max-w-md"
           />
         </div>
