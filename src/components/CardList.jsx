@@ -10,32 +10,30 @@ import {
 } from "../services/api";
 
 const CardList = ({ cards, type }) => {
-  const [watchedIds, setWatchedIds] = useState([]);
+  const [watchedMovieIds, setWatchedMovieIds] = useState([]);
+  const [watchedSeriesIds, setWatchedSeriesIds] = useState([]);
 
   useEffect(() => {
-    if (type === "series") {
-      setWatchedIds(getAllSeriesIds());
-    } else {
-      setWatchedIds(getAllMovieIds());
-    }
-  }, [cards, type]);
+    setWatchedMovieIds(getAllMovieIds());
+    setWatchedSeriesIds(getAllSeriesIds());
+  }, [cards]);
 
   const toggleWatch = async (card) => {
-    if (watchedIds.includes(card.id)) {
-      if (type === "series") {
+    if (card.type === "series") {
+      if (watchedSeriesIds.includes(card.id)) {
         await removeSeriesById(card.id);
-        setWatchedIds((ids) => ids.filter((id) => id !== card.id));
+        setWatchedSeriesIds((ids) => ids.filter((id) => id !== card.id));
       } else {
-        await removeMovieById(card.id);
-        setWatchedIds((ids) => ids.filter((id) => id !== card.id));
+        await saveSeriesById(card.id);
+        setWatchedSeriesIds((ids) => [...ids, card.id]);
       }
     } else {
-      if (type === "series") {
-        await saveSeriesById(card.id);
-        setWatchedIds((ids) => [...ids, card.id]);
+      if (watchedMovieIds.includes(card.id)) {
+        await removeMovieById(card.id);
+        setWatchedMovieIds((ids) => ids.filter((id) => id !== card.id));
       } else {
         await saveMovieById(card.id);
-        setWatchedIds((ids) => [...ids, card.id]);
+        setWatchedMovieIds((ids) => [...ids, card.id]);
       }
     }
   };
@@ -45,10 +43,10 @@ const CardList = ({ cards, type }) => {
   }
 
   return (
-    <div className="grid gap-6 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {cards.map((card) => (
         <Card
-          type={type}
+          type={card.type}
           key={card.id}
           id={card.id}
           image={card.img}
@@ -58,7 +56,11 @@ const CardList = ({ cards, type }) => {
           genres={card.genres}
           watchButton={
             <WatchButton
-              isWatched={watchedIds.includes(card.id)}
+              isWatched={
+                card.type === "series"
+                  ? watchedSeriesIds.includes(card.id)
+                  : watchedMovieIds.includes(card.id)
+              }
               onToggle={() => toggleWatch(card)}
             />
           }
