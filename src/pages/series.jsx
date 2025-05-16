@@ -41,7 +41,7 @@ export default function Series() {
     <div className="p-8">
       <h2 className="text-2xl font-bold mb-4">📺 Serien</h2>
 
-      <div className="flex flex-col md:flex-row md:items-center md:gap-4 mb-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-4 mb-6">
         <SearchInput
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
