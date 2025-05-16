@@ -1,5 +1,5 @@
 import React from "react";
-import penguinImage from "../assets/penguin.webp";
+const penguinImage = "/assets/penguin.webp";
 
 export default function Hero() {
   return (
