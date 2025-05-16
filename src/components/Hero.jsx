@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   const backgroundImage = "/assets/astro.jpg";
@@ -22,9 +23,10 @@ export default function Hero() {
             <br />
             <span className="italic opacity-80">Out of Many, One People.</span>
           </p>
-          <a className="btn btn-primary text-base sm:text-lg mt-2">
+          {/* <a className="btn btn-primary text-white">Browse Collection</a> */}
+          <Link to="/movies" className="btn btn-primary text-white">
             Browse Collection
-          </a>
+          </Link>
         </div>
         <div className="w-full md:w-1/2 flex justify-center">
           <img

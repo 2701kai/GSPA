@@ -51,6 +51,19 @@ export default function Navbar() {
               Watchlist
             </Link>
           </li>
+          <li>
+            <input
+              type="checkbox"
+              className="toggle toggle-sm"
+              onChange={(e) => {
+                document.documentElement.setAttribute(
+                  "data-theme",
+                  e.target.checked ? "lighttheme" : "darktheme"
+                );
+              }}
+              title="Toggle Theme"
+            />
+          </li>
         </ul>
       </div>
     </header>

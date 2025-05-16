@@ -1,13 +1,35 @@
+/* Tailwind core and plugins (Vite + Tailwind 4+) */
 @import "tailwindcss";
-@import "tailwindcss/preflight" @tailwind utilities;
-@plugin "daisyui" {
-  themes: dracula --default;
-}
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
 
-/* Custom Font  */
+/* DaisyUI plugin themes are set in tailwind.config.js, NOT here */
+
+/* Inter font from Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
 
+/* Base styles */
 body {
-  @apply bg-gray-100 text-gray-800 font-sans;
   font-family: "Inter", sans-serif;
+  @apply bg-base-100 text-base-content font-sans;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global button hover effect */
+.btn-primary {
+  @apply transition-transform duration-200 ease-in-out hover:scale-105;
+}
+
+/* Global link behavior */
+a {
+  @apply text-primary hover:underline transition-colors duration-200;
+}
+
+a.btn,
+a.btn-primary {
+  @apply no-underline text-white;
 }

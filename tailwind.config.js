@@ -14,7 +14,32 @@ module.exports = {
     },
   },
   plugins: [require("daisyui")],
+  //   daisyui: {
+  //     themes: ["dark --default", "light --preferslight", "dracula --dracula"],
+  //   },
   daisyui: {
-    themes: ["dark --default", "light --preferslight", "dracula --dracula"],
+    themes: [
+      {
+        darktheme: {
+          ...require("daisyui/src/colors/themes")["[data-theme=dark]"],
+          primary: "#ff4100",
+          secondary: "#ffffff",
+          accent: "#ff4100",
+          neutral: "#1f1f1f",
+          "base-100": "#141414",
+        },
+      },
+      {
+        lighttheme: {
+          ...require("daisyui/src/colors/themes")["[data-theme=light]"],
+          primary: "#ff4100",
+          secondary: "#000000",
+          accent: "#ff4100",
+          neutral: "#fafafa",
+          "base-100": "#ffffff",
+        },
+      },
+    ],
+    darkTheme: "darktheme",
   },
 };
