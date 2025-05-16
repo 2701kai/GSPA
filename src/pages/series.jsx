@@ -1,23 +1,21 @@
 import { useEffect, useState } from "react";
 import { getPopSeries } from "../services/api";
 import CardList from "../components/CardList";
-import { getAllSeriesIds } from "../services/localstorage";
+import SearchInput from "../components/search.comp";
+import Sort from "../components/sort.comp";
 
 export default function Series() {
   const [series, setSeries] = useState([]);
   const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [sortKey, setSortKey] = useState("title");
   const [sortOrder, setSortOrder] = useState("asc");
-  const [tab, setTab] = useState("all");
-  const [watchedIds, setWatchedIds] = useState([]);
 
   useEffect(() => {
     async function fetchSeries() {
       try {
         const data = await getPopSeries(page);
         setSeries(data);
-        setWatchedIds(getAllSeriesIds());
       } catch (error) {
         console.error("Fehler beim Laden der Serien", error);
       }
@@ -26,12 +24,7 @@ export default function Series() {
   }, [page]);
 
   const filteredSeries = series
-    .filter((s) => s.title.toLowerCase().includes(query.toLowerCase()))
-    .filter((s) => {
-      if (tab === "watched") return watchedIds.includes(s.id);
-      if (tab === "unwatched") return !watchedIds.includes(s.id);
-      return true;
-    })
+    .filter((s) => s.title.toLowerCase().includes(searchValue.toLowerCase()))
     .sort((a, b) => {
       const aVal = a[sortKey];
       const bVal = b[sortKey];
@@ -45,70 +38,24 @@ export default function Series() {
     });
 
   return (
-    <div className="p-4">
+    <div className="p-8">
       <h2 className="text-2xl font-bold mb-4">📺 Serien</h2>
 
-      {/* Search & Sort */}
-      <div className="flex flex-col md:flex-row md:items-center md:gap-4 mb-6">
-        <input
-          type="text"
-          placeholder="Nach Serie suchen..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-full md:w-1/3 px-4 py-2 border rounded-md shadow-sm"
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-4 mb-6">
+        <SearchInput
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
         />
-
-        <select
-          value={sortKey}
-          onChange={(e) => setSortKey(e.target.value)}
-          className="px-3 py-2 border rounded-md"
-        >
-          <option value="title">Sortieren nach Titel</option>
-          <option value="year">Sortieren nach Jahr</option>
-        </select>
-
-        <select
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
-          className="px-3 py-2 border rounded-md"
-        >
-          <option value="asc">Aufsteigend</option>
-          <option value="desc">Absteigend</option>
-        </select>
+        <Sort
+          sortKey={sortKey}
+          setSortKey={setSortKey}
+          sortOrder={sortOrder}
+          setSortOrder={setSortOrder}
+        />
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-4 mb-6">
-        <button
-          className={`px-4 py-2 rounded-md ${
-            tab === "all" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setTab("all")}
-        >
-          Alle
-        </button>
-        <button
-          className={`px-4 py-2 rounded-md ${
-            tab === "watched" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setTab("watched")}
-        >
-          Gesehen
-        </button>
-        <button
-          className={`px-4 py-2 rounded-md ${
-            tab === "unwatched" ? "bg-blue-600 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => setTab("unwatched")}
-        >
-          Ungesehen
-        </button>
-      </div>
-
-      {/* List */}
       <CardList cards={filteredSeries} type="series" />
 
-      {/* Pagination */}
       <div className="flex justify-center mt-8 gap-4">
         <button
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
